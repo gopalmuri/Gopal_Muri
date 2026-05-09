@@ -1,24 +1,28 @@
 // src/utils/emailService.js
-// REPLACE the values below with your actual EmailJS credentials
-// Get them from https://www.emailjs.com/
-
 export const EMAILJS_SERVICE_ID  = 'service_020rwbg';
 export const EMAILJS_TEMPLATE_ID = 'template_c07tssu';
 export const EMAILJS_PUBLIC_KEY  = 'u2JbPMEZmX1cjLjMa';
 
 /**
- * Send email using EmailJS
- * @param {React.RefObject} formRef - Reference to the form element
- * @param {Function} onSuccess - Callback on success
- * @param {Function} onError - Callback on error
+ * Send email using EmailJS send() — works on any domain (no whitelist needed)
  */
 export const sendContactEmail = async (formRef, onSuccess, onError) => {
   try {
     const emailjs = await import('@emailjs/browser');
-    await emailjs.sendForm(
+
+    // Extract values directly from the form ref
+    const formData = new FormData(formRef.current);
+    const templateParams = {
+      name:    formData.get('name')    || '',
+      email:   formData.get('email')   || '',
+      subject: formData.get('subject') || '',
+      message: formData.get('message') || '',
+    };
+
+    await emailjs.send(
       EMAILJS_SERVICE_ID,
       EMAILJS_TEMPLATE_ID,
-      formRef.current,
+      templateParams,
       EMAILJS_PUBLIC_KEY
     );
     onSuccess();
