@@ -1,6 +1,6 @@
 // src/utils/emailService.js
 export const EMAILJS_SERVICE_ID  = 'service_020rwbg';
-export const EMAILJS_TEMPLATE_ID = 'template_c07tssu';
+export const EMAILJS_TEMPLATE_ID = 'template_2c14euf';
 export const EMAILJS_PUBLIC_KEY  = 'u2JbPMEZmX1cjLjMa';
 
 /**
