@@ -1,6 +1,6 @@
 // src/components/Projects/Projects.jsx
-import { useState, useEffect, useRef } from 'react';
-import { FiStar, FiGitBranch, FiEye, FiCode, FiExternalLink, FiRefreshCw } from 'react-icons/fi';
+import { useState, useRef } from 'react';
+import { FiStar, FiGitBranch, FiEye, FiCode, FiExternalLink } from 'react-icons/fi';
 import useScrollAnimation from '../../hooks/useScrollAnimation';
 import './Projects.css';
 
@@ -122,9 +122,9 @@ function SkeletonCard() {
 
 export default function Projects() {
   const ref = useScrollAnimation();
-  const [repos, setRepos] = useState(RESUME_PROJECTS);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const repos = RESUME_PROJECTS;
+  const loading = false;
+  const error = null;
   return (
     <section id="projects" className="projects section" ref={ref}>
       <div className="container">

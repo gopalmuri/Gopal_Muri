@@ -46,21 +46,6 @@ const WORDS = [
   ]},
 ];
 
-// Flat list for ref indexing
-const CHAR_ORIGINS = [
-  { tx: '-120vw', ty: '-40vh', r: '-45deg' },
-  { tx:  '0vw',  ty: '-120vh', r:  '20deg' },
-  { tx:  '120vw', ty: '-50vh', r:  '60deg' },
-  { tx: '-100vw', ty:  '60vh', r: '-30deg' },
-  { tx:  '0vw',   ty:  '120vh', r: '-15deg' },
-  { tx: '-80vw',  ty: '-80vh', r:  '90deg' },
-  { tx:  '0vw',   ty: '-100vh', r: '-50deg' },
-  { tx:  '100vw', ty:  '0vh',  r:  '30deg' },
-  { tx:  '80vw',  ty:  '80vh', r: '-70deg' },
-];
-
-// Flat characters (no space — words are separate spans)
-const CHARS = ['G','O','P','A','L','M','U','R','I'];
 
 export default function Preloader({ onDone }) {
   const [progress, setProgress]     = useState(0);
