@@ -1,0 +1,97 @@
+/* src/components/shared/CursorTrail.css */
+
+/* Scope cursor:none only to interactive elements, NOT globally.
+   Global cursor:none breaks laptop touchpad scrolling. */
+html, body, a, button, input, textarea, select, label,
+[role="button"], [tabindex], .magnetic-btn {
+  cursor: none !important;
+}
+
+.cursor-dot {
+  position: fixed;
+  width: 8px;
+  height: 8px;
+  background: var(--accent);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 99999;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 8px var(--accent), 0 0 16px var(--accent-glow);
+  transition: width 0.2s, height 0.2s, background 0.2s;
+}
+
+.cursor-dot--pointer {
+  width: 14px;
+  height: 14px;
+  background: var(--accent);
+  box-shadow: 0 0 16px var(--accent), 0 0 32px var(--accent-glow);
+}
+
+.cursor-dot--text {
+  width: 2px;
+  height: 18px;
+  border-radius: 2px;
+  background: var(--accent);
+}
+
+.cursor-ring {
+  position: fixed;
+  width: 36px;
+  height: 36px;
+  border: 2px solid var(--accent);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 99998;
+  transform: translate(-50%, -50%);
+  opacity: 0.6;
+  transition: width 0.25s ease, height 0.25s ease, opacity 0.25s ease, border-color 0.25s ease;
+}
+
+.cursor-ring--pointer {
+  width: 50px;
+  height: 50px;
+  opacity: 0.9;
+  background: var(--accent-glow);
+  border-color: var(--accent);
+}
+
+.cursor-ring--text {
+  width: 24px;
+  height: 24px;
+  opacity: 0.3;
+}
+
+.cursor-trail-dot {
+  position: fixed;
+  border-radius: 50%;
+  background: var(--accent);
+  pointer-events: none;
+  z-index: 99997;
+  transform: translate(-50%, -50%);
+  transition: opacity 0.1s;
+}
+
+.cursor-ripple {
+  position: fixed;
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--accent);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 99996;
+  transform: translate(-50%, -50%);
+  animation: rippleBurst 0.6s ease-out forwards;
+}
+
+@keyframes rippleBurst {
+  from {
+    width: 10px;
+    height: 10px;
+    opacity: 1;
+  }
+  to {
+    width: 60px;
+    height: 60px;
+    opacity: 0;
+  }
+}

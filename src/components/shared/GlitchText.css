@@ -1,0 +1,64 @@
+/* src/components/shared/GlitchText.css — Professional clean gradient title */
+
+.glitch-text {
+  position: relative;
+  display: inline-block;
+
+  /* Clean white → cyan gradient */
+  background: linear-gradient(135deg, #ffffff 0%, #e0f8ff 40%, #00BFFF 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+
+  /* Subtle glow on paint */
+  filter: drop-shadow(0 0 18px rgba(0, 191, 255, 0.35));
+
+  /* Entrance animation */
+  animation: nameReveal 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.4s both;
+}
+
+/* Shimmer sweep on hover */
+.glitch-text::after {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    105deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.35) 50%,
+    transparent 70%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.glitch-text:hover {
+  filter: drop-shadow(0 0 28px rgba(0, 191, 255, 0.55));
+}
+
+.glitch-text:hover::after {
+  opacity: 1;
+  animation: shimmerSweep 0.6s ease forwards;
+}
+
+@keyframes nameReveal {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+    filter: drop-shadow(0 0 0px rgba(0, 191, 255, 0));
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: drop-shadow(0 0 18px rgba(0, 191, 255, 0.35));
+  }
+}
+
+@keyframes shimmerSweep {
+  from { background-position: -200% center; }
+  to   { background-position: 200% center; }
+}

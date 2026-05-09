@@ -1,0 +1,65 @@
+/* src/components/shared/Toast.css */
+
+.toast {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 1.5rem;
+  border-radius: 12px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 500;
+  backdrop-filter: blur(20px);
+  border: 1px solid;
+  min-width: 300px;
+  max-width: 400px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease;
+}
+
+.toast--show {
+  transform: translateX(0);
+  opacity: 1;
+  animation: toastSlide 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.toast--hide {
+  transform: translateX(120%);
+  opacity: 0;
+}
+
+.toast--success {
+  background: rgba(0, 191, 255, 0.1);
+  border-color: rgba(0, 191, 255, 0.4);
+  color: var(--text-primary);
+}
+
+.toast--error {
+  background: rgba(239, 68, 68, 0.1);
+  border-color: rgba(239, 68, 68, 0.4);
+  color: var(--text-primary);
+}
+
+.toast__message { flex: 1; }
+
+.toast__close {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 1.2rem;
+  line-height: 1;
+  cursor: none;
+  padding: 0;
+  transition: color 0.2s;
+}
+
+.toast__close:hover { color: var(--text-primary); }
+
+@keyframes toastSlide {
+  from { transform: translateX(120%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}

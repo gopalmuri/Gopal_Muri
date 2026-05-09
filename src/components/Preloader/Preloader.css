@@ -1,0 +1,402 @@
+/* src/components/Preloader/Preloader.css */
+
+/* ═══════════════════════════════════════════
+   BASE
+═══════════════════════════════════════════ */
+.preloader {
+  position: fixed;
+  inset: 0;
+  z-index: 100000;
+  background: #080818;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ── Ambient radial glow ── */
+.pl-glow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 65% 55% at 50% 50%,
+    rgba(0, 191, 255, 0.08) 0%, transparent 70%);
+  animation: plGlowPulse 2.5s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+@keyframes plGlowPulse {
+  from { opacity: 0.4; }
+  to   { opacity: 1; }
+}
+
+/* ═══════════════════════════════════════════
+   ORBIT RING + ICONS
+═══════════════════════════════════════════ */
+.pl-ring {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  transform-origin: 0 0;
+}
+
+@keyframes plRingSpin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+@keyframes plCounterSpin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(-360deg); }
+}
+
+.pl-icon {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  will-change: transform, opacity;
+}
+
+.pl-bubble {
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background: rgba(8, 10, 35, 0.92);
+  border: 1.5px solid rgba(0, 191, 255, 0.45);
+  box-shadow:
+    0 0 18px rgba(0, 191, 255, 0.2),
+    inset 0 0 8px rgba(0, 191, 255, 0.05);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(6px);
+  transition: box-shadow 0.4s ease, border-color 0.4s ease;
+}
+
+.pl-bubble--glow {
+  border-color: rgba(0, 191, 255, 0.9);
+  box-shadow:
+    0 0 30px rgba(0, 191, 255, 0.7),
+    0 0 70px rgba(0, 191, 255, 0.2);
+}
+
+.pl-img {
+  width: 30px;
+  height: 30px;
+  object-fit: contain;
+  pointer-events: none;
+  filter: drop-shadow(0 0 4px rgba(0, 191, 255, 0.35));
+}
+
+/* Make Django icon visible on dark background */
+.pl-img[alt="Django"] {
+  background: rgba(255, 255, 255, 0.95) !important;
+  padding: 2px !important;
+  border-radius: 4px !important;
+  filter: none !important;
+}
+
+/* ═══════════════════════════════════════════
+   CINEMATIC TITLE  – "GOPAL MURI"
+═══════════════════════════════════════════ */
+.pl-title {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55em;           /* ← visible space between GOPAL and MURI */
+  z-index: 20;
+  overflow: visible;
+  will-change: transform, opacity;
+}
+
+/* Each word group keeps characters tight together */
+.pl-word {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.06em;
+}
+
+/* ── Forward-zoom exit ── */
+.pl-title--exit {
+  transition: transform 0.9s cubic-bezier(0.6, 0, 1, 1),
+              opacity   0.7s ease;
+  transform: translate(-50%, -50%) scale(8);
+  opacity: 0;
+}
+
+/* ═══════════════════════════════════════════
+   INDIVIDUAL CHARACTERS
+═══════════════════════════════════════════ */
+.pl-char {
+  display: inline-block;
+  font-family: 'Syne', 'Rajdhani', 'Orbitron', sans-serif;
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(200, 230, 255, 0.15);          /* dim before lit */
+  text-shadow: none;
+  will-change: transform, opacity, filter;
+
+  /* ── Phase 1 default: chars are scattered off-screen ──
+     They cannot use CSS variables in 'transform' directly
+     until .pl-title--visible is added.
+     We use a class toggle approach instead.              */
+  transform: translate(var(--ox), var(--oy)) rotate(var(--or)) scale(1.8);
+  opacity: 0;
+  filter: blur(14px);
+  transition: none;   /* no transition while scattered */
+}
+
+/* Phase 1 → Phase 2: when .pl-title--visible is set, transition to final pos */
+.pl-title--visible .pl-char {
+  transform: translate(0, 0) rotate(0deg) scale(1);
+  opacity: 1;
+  filter: blur(0px);
+  color: rgba(200, 230, 255, 0.55);
+  text-shadow:
+    0 0 12px rgba(0, 191, 255, 0.2);
+  transition:
+    transform  0.9s cubic-bezier(0.22, 1, 0.36, 1) var(--delay),
+    opacity    0.7s ease                            var(--delay),
+    filter     0.7s ease                            var(--delay),
+    color      0.5s ease                            var(--delay),
+    text-shadow 0.5s ease                           var(--delay);
+}
+
+/* ── Phase 3: per-character glow when light passes ── */
+.pl-char--lit {
+  color: #00d4ff !important;
+  text-shadow:
+    0 0 8px  #ffffff,
+    0 0 22px #00BFFF,
+    0 0 55px rgba(0, 191, 255, 0.55) !important;
+  transform: translate(0, 0) rotate(0deg) scale(1.06) !important;
+  transition:
+    color      0.35s ease,
+    text-shadow 0.35s ease,
+    transform  0.35s ease !important;
+}
+
+/* ═══════════════════════════════════════════
+   LIGHT SWEEP BAR
+═══════════════════════════════════════════ */
+.pl-sweep-bar {
+  position: absolute;
+  top: -20%;
+  left: -15%;
+  width: 60px;
+  height: 140%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(180, 230, 255, 0.06) 20%,
+    rgba(0, 191, 255, 0.55) 50%,
+    rgba(180, 230, 255, 0.06) 80%,
+    transparent 100%
+  );
+  filter: blur(6px);
+  pointer-events: none;
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+.pl-sweep-bar--active {
+  animation: plSweep 1.0s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes plSweep {
+  0% {
+    transform: translateX(0%);
+    opacity: 0;
+  }
+  8% {
+    opacity: 1;
+  }
+  92% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(calc(var(--title-width, 115%) + 30%));
+    opacity: 0;
+  }
+}
+
+/* ═══════════════════════════════════════════
+   TAGLINES (above / below name)
+═══════════════════════════════════════════ */
+
+/* ── ABOVE: role tagline ── */
+.pl-tagline-top {
+  position: fixed;
+  top: calc(50% - 5.6rem);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 21;
+  opacity: 0;
+  letter-spacing: 0.28em;
+  transition: opacity 0.6s ease 0.2s, transform 0.6s ease 0.2s;
+  transform: translateX(-50%) translateY(-14px);
+  white-space: nowrap;
+}
+.pl-tagline-top--visible {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+.pl-tagline-top--exit {
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+.pl-tag-line {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: clamp(0.75rem, 1.5vw, 0.95rem);
+  font-weight: 500;
+  letter-spacing: 0.28em;
+  color: rgba(0, 230, 118, 0.85);
+  text-transform: uppercase;
+  text-shadow: 0 0 14px rgba(0, 230, 118, 0.45);
+}
+
+/* ── BELOW: motivational tagline ── */
+.pl-tagline-bottom {
+  position: fixed;
+  top: calc(50% + 4.4rem);
+  left: 50%;
+  transform: translateX(-50%) translateY(14px);
+  z-index: 21;
+  opacity: 0;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  transition: opacity 0.6s ease 0.6s, transform 0.6s ease 0.6s;
+}
+.pl-tagline-bottom--visible {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+.pl-tagline-bottom--exit {
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+.pl-sub-text {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: clamp(0.7rem, 1.3vw, 0.9rem);
+  font-weight: 400;
+  letter-spacing: 0.24em;
+  color: rgba(0, 230, 118, 0.75);
+  text-transform: uppercase;
+  text-shadow: 0 0 10px rgba(0, 230, 118, 0.3);
+}
+.pl-sub-dot {
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: rgba(0, 230, 118, 0.65);
+  box-shadow: 0 0 8px rgba(0, 230, 118, 0.7);
+  flex-shrink: 0;
+}
+
+/* ═══════════════════════════════════════════
+   PROGRESS BAR
+═══════════════════════════════════════════ */
+.pl-bottom {
+  position: fixed;
+  bottom: 12%;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  z-index: 30;
+}
+
+.pl-track {
+  width: 240px;
+  height: 2px;
+  background: rgba(0, 230, 118, 0.08);
+  border-radius: 50px;
+  overflow: hidden;
+  margin: 0 auto 1.1rem;
+}
+
+.pl-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #00e676, #69f0ae);
+  transition: width 0.08s linear;
+  box-shadow: 0 0 10px rgba(0, 230, 118, 0.7);
+  border-radius: 50px;
+}
+
+.pl-pct-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.18rem;
+  margin-bottom: 0.55rem;
+}
+
+.pl-pct-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  font-weight: 400;
+  letter-spacing: 0.38em;
+  color: rgba(0, 230, 118, 0.55);
+  text-transform: uppercase;
+}
+
+.pl-pct {
+  display: flex;
+  align-items: baseline;
+  gap: 0.05em;
+  font-family: 'JetBrains Mono', monospace;
+  line-height: 1;
+}
+
+.pl-pct-num {
+  font-size: clamp(2.8rem, 5vw, 3.2rem);
+  font-weight: 700;
+  color: #00e676;
+  letter-spacing: 0.04em;
+  text-shadow:
+    0 0 16px rgba(0, 230, 118, 0.7),
+    0 0 50px rgba(0, 230, 118, 0.25);
+  font-variant-numeric: tabular-nums;
+}
+
+.pl-pct-sym {
+  font-size: clamp(1.2rem, 2.4vw, 1.5rem);
+  font-weight: 500;
+  color: rgba(0, 230, 118, 0.65);
+  text-shadow: 0 0 10px rgba(0, 230, 118, 0.35);
+}
+
+.pl-label {
+  font-family: 'DM Sans', sans-serif;
+  color: rgba(180, 190, 220, 0.4);
+  font-size: 0.68rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+/* ═══════════════════════════════════════════
+   EXIT WIPE PANELS
+═══════════════════════════════════════════ */
+.pl-panel {
+  position: fixed;
+  left: 0;
+  right: 0;
+  height: 50%;
+  background: #080818;
+  z-index: 50;
+  transition: transform 0.85s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.pl-panel--top    { top: 0;    transform: translateY(0); }
+.pl-panel--bottom { bottom: 0; transform: translateY(0); }
+
+.preloader--exit .pl-panel--top    { transform: translateY(-100%); }
+.preloader--exit .pl-panel--bottom { transform: translateY(100%); }

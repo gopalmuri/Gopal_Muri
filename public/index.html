@@ -1,0 +1,671 @@
+<!DOCTYPE html><!-- v=20260418-1430 -->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#00BFFF" />
+    <meta name="description" content="Gopal Muri - Full Stack Developer specializing in Python, Django & Java. Based in Bengaluru, India." />
+    <meta name="keywords" content="Gopal Muri, Full Stack Developer, Python Developer, Django, Java, Bengaluru, React, Spring Boot" />
+    <meta name="author" content="Gopal Muri" />
+    <meta name="robots" content="index, follow" />
+    <meta property="og:title" content="Gopal Muri | Full Stack Developer" />
+    <meta property="og:description" content="Portfolio of Gopal Muri - Full Stack Developer specializing in Python, Django & Java." />
+    <meta property="og:image" content="YOUR_PORTFOLIO_URL/og-image.jpg" />
+    <meta property="og:url" content="YOUR_PORTFOLIO_URL" />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Gopal Muri | Full Stack Developer" />
+    <meta name="twitter:description" content="Portfolio of Gopal Muri - Full Stack Developer" />
+    <meta name="twitter:image" content="YOUR_PORTFOLIO_URL/og-image.jpg" />
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- Non-blocking font load — never delays preloader paint -->
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+    <title>Gopal Muri | Full Stack Developer</title>
+
+    <style>
+      *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+      body { background: #0f0f1e; } /* no overflow:hidden — preloader covers page */
+
+      /* ── PRELOADER OVERLAY ── */
+      #hpl {
+        position: fixed; inset: 0; z-index: 999999;
+        background: #0f0f1e;
+        /* NO overflow:hidden — it clips the characters flying in from off-screen */
+        transition: opacity 0.7s ease, visibility 0.7s ease;
+      }
+      #hpl.hide { opacity: 0; visibility: hidden; pointer-events: none; }
+
+      /* Soft radial glow */
+      #hpl-glow {
+        position: absolute; inset: 0;
+        background: radial-gradient(ellipse 60% 55% at 50% 50%,
+          rgba(0,191,255,0.09) 0%, transparent 70%);
+        animation: hplGlow 2s ease-in-out infinite alternate;
+      }
+      @keyframes hplGlow { from{opacity:.4} to{opacity:1} }
+
+      /* ── GM CENTER ── */
+      #hpl-gm {
+        position: fixed;
+        top: 50%; left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 5;
+        width: 120px; height: 120px; border-radius: 50%;
+        background: radial-gradient(circle, rgba(0,191,255,0.1), transparent 70%);
+        border: 2px solid rgba(0,191,255,0.25);
+        display: flex; align-items: center; justify-content: center;
+        animation: hplGmPulse 1.5s ease-in-out infinite alternate;
+      }
+      @keyframes hplGmPulse {
+        from { box-shadow: 0 0 12px rgba(0,191,255,0.1); }
+        to   { box-shadow: 0 0 32px rgba(0,191,255,0.35); }
+      }
+      #hpl-gm img {
+        width: 100%; height: 100%; border-radius: 50%;
+        object-fit: cover;
+        filter: drop-shadow(0 0 10px rgba(0,191,255,0.6));
+      }
+
+      /* ══════════════════════════════════════════════════════
+         THE RING — sits at viewport center (width:0, height:0)
+         When #hpl-ring rotates, ALL icons inside orbit around
+         the center of the screen. This is the correct way.
+         ring's transform-origin: 0 0 (= its top-left = center of screen)
+      ══════════════════════════════════════════════════════ */
+      #hpl-ring {
+        position: fixed;
+        top: 50%; left: 50%;
+        width: 0; height: 0;
+        animation:
+          hplRingSpin 3.0s linear 4.5s infinite,
+          hplFadeOut  0.7s ease   6.8s forwards;  /* fade out after spin */
+        transform-origin: 0 0;
+      }
+      @keyframes hplRingSpin { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
+      @keyframes hplFadeOut  { to { opacity: 0; pointer-events: none; } }
+
+      /* GM center fades out same time as ring */
+      #hpl-gm  { animation: hplGmPulse 1.5s ease-in-out infinite alternate; }
+      /* counter stays visible until the whole preloader fades — override handled by later rule */
+      #hpl-label { animation: none; }
+
+      /* ── ICON SLOT ──
+         Each icon is a child of #hpl-ring.
+         `left` and `top` define orbit position relative to ring center.
+         translate(-50%, -50%) centers the 58px bubble on that point.
+         The fly-in animation temporarily moves icon far from its orbit spot,
+         then slowly brings it back to translate(-50%,-50%).
+         During ring rotation, the icon's left/top stays fixed,
+         so it orbits around ring's origin (= screen center). ✓
+
+         Counter-rotate bubble so image STAYS UPRIGHT while ring spins.
+      ── */
+      .hpl-icon {
+        position: absolute;
+        width: 82px; height: 82px;
+        /* left/top set per icon via style attribute */
+      }
+
+      .hpl-bubble {
+        width: 82px; height: 82px; border-radius: 50%;
+        background: rgba(8, 10, 35, 0.92);
+        border: 2px solid rgba(0,191,255,0.55);
+        box-shadow: 0 0 26px rgba(0,191,255,0.35);
+        display: flex; align-items: center; justify-content: center;
+        transform: translate(-50%, -50%);
+        /* counter-rotate to stay upright (starts same time as ring spin) */
+        animation: hplCounter 3.0s linear 4.0s infinite;
+      }
+      @keyframes hplCounter {
+        from { transform: translate(-50%, -50%) rotate(0deg); }
+        to   { transform: translate(-50%, -50%) rotate(-360deg); }
+      }
+      .hpl-bubble img {
+        width: 46px; height: 46px; object-fit: contain;
+        filter: drop-shadow(0 0 7px rgba(0,191,255,0.5));
+        pointer-events: none;
+      }
+      /* Make Django icon visible on dark background */
+      .hpl-bubble img[alt="Django"] {
+        background: rgba(255, 255, 255, 0.95) !important;
+        padding: 3px !important;
+        border-radius: 5px !important;
+        filter: none !important;
+      }
+
+      /* ── FLY-IN ANIMATIONS ──
+         Each icon flies FROM far outside TOWARD its orbit position.
+         The orbit position = (left, top) set on the .hpl-icon element.
+         The fly-in animates the BUBBLE's transform:
+           from: translate(-50% + extraX, -50% + extraY)  [far away]
+           to:   translate(-50%, -50%)                    [orbit position]
+
+         Orbit positions (radius 145px):
+           i0 top:         left=0,    top=-145
+           i1 top-right:   left=103,  top=-103
+           i2 right:       left=145,  top=0
+           i3 bottom-right: left=103, top=103
+           i4 bottom:      left=0,    top=145
+           i5 bottom-left: left=-103, top=103
+           i6 left:        left=-145, top=0
+           i7 top-left:    left=-103, top=-103
+
+         Extra offset = fly icon 550px further in same direction.
+      ── */
+
+      /* Stagger: 350ms between each icon. Last lands at 350*7 + 1800 = 4250ms.
+         Ring spin: starts at 4.5s (a little after last icon lands). */
+
+      /* i0 top (0,-145): fly from extra (0, -550) above orbit */
+      .hpl-i0 .hpl-bubble { animation: hplF0 1.8s cubic-bezier(0.2,0.8,0.3,1)    0ms both, hplCounter 3.0s linear 4.5s infinite; }
+      @keyframes hplF0 {
+        from { transform: translate(-50%, calc(-50% - 550px)); opacity:0; }
+        to   { transform: translate(-50%, -50%); opacity:1; }
+      }
+
+      /* i1 top-right (103,-103): fly from (+550,-550) */
+      .hpl-i1 .hpl-bubble { animation: hplF1 1.8s cubic-bezier(0.2,0.8,0.3,1)  350ms both, hplCounter 3.0s linear 4.5s infinite; }
+      @keyframes hplF1 {
+        from { transform: translate(calc(-50% + 550px), calc(-50% - 550px)); opacity:0; }
+        to   { transform: translate(-50%, -50%); opacity:1; }
+      }
+
+      /* i2 right (145,0): fly from (+550,0) */
+      .hpl-i2 .hpl-bubble { animation: hplF2 1.8s cubic-bezier(0.2,0.8,0.3,1)  700ms both, hplCounter 3.0s linear 4.5s infinite; }
+      @keyframes hplF2 {
+        from { transform: translate(calc(-50% + 550px), -50%); opacity:0; }
+        to   { transform: translate(-50%, -50%); opacity:1; }
+      }
+
+      /* i3 bottom-right (103,103): fly from (+550,+550) */
+      .hpl-i3 .hpl-bubble { animation: hplF3 1.8s cubic-bezier(0.2,0.8,0.3,1) 1050ms both, hplCounter 3.0s linear 4.5s infinite; }
+      @keyframes hplF3 {
+        from { transform: translate(calc(-50% + 550px), calc(-50% + 550px)); opacity:0; }
+        to   { transform: translate(-50%, -50%); opacity:1; }
+      }
+
+      /* i4 bottom (0,145): fly from (0,+550) */
+      .hpl-i4 .hpl-bubble { animation: hplF4 1.8s cubic-bezier(0.2,0.8,0.3,1) 1400ms both, hplCounter 3.0s linear 4.5s infinite; }
+      @keyframes hplF4 {
+        from { transform: translate(-50%, calc(-50% + 550px)); opacity:0; }
+        to   { transform: translate(-50%, -50%); opacity:1; }
+      }
+
+      /* i5 bottom-left (-103,103): fly from (-550,+550) */
+      .hpl-i5 .hpl-bubble { animation: hplF5 1.8s cubic-bezier(0.2,0.8,0.3,1) 1750ms both, hplCounter 3.0s linear 4.5s infinite; }
+      @keyframes hplF5 {
+        from { transform: translate(calc(-50% - 550px), calc(-50% + 550px)); opacity:0; }
+        to   { transform: translate(-50%, -50%); opacity:1; }
+      }
+
+      /* i6 left (-145,0): fly from (-550,0) */
+      .hpl-i6 .hpl-bubble { animation: hplF6 1.8s cubic-bezier(0.2,0.8,0.3,1) 2100ms both, hplCounter 3.0s linear 4.5s infinite; }
+      @keyframes hplF6 {
+        from { transform: translate(calc(-50% - 550px), -50%); opacity:0; }
+        to   { transform: translate(-50%, -50%); opacity:1; }
+      }
+
+      /* i7 top-left (-103,-103): fly from (-550,-550) */
+      .hpl-i7 .hpl-bubble { animation: hplF7 1.8s cubic-bezier(0.2,0.8,0.3,1) 2450ms both, hplCounter 3.0s linear 4.5s infinite; }
+      @keyframes hplF7 {
+        from { transform: translate(calc(-50% - 550px), calc(-50% - 550px)); opacity:0; }
+        to   { transform: translate(-50%, -50%); opacity:1; }
+      }
+
+      /* Ring spins starting at 4.5s */
+      #hpl-ring { animation: hplRingSpin 3.0s linear 4.5s infinite; }
+
+      /* ── VIEWPORT BORDER TRACE — draws clockwise top→right→bottom→left over 14s ── */
+      .hpl-border {
+        position: fixed;
+        z-index: 9999;
+      }
+      /* TOP edge: left → right  ——  Emerald Green */
+      #hpl-bt {
+        top: 0; left: 0;
+        height: 5px; width: 0;
+        background: linear-gradient(90deg, #00e676, #69f0ae);
+        box-shadow: 0 0 8px #00e676, 0 0 22px rgba(0,230,118,0.7), 0 0 50px rgba(0,230,118,0.3);
+        animation: hplBT 3.5s cubic-bezier(0.4,0,0.6,1) 0s forwards;
+      }
+      @keyframes hplBT { to { width: 100vw; } }
+
+      /* RIGHT edge: top → bottom  ——  Blazing Orange */
+      #hpl-br {
+        top: 0; right: 0;
+        width: 5px; height: 0;
+        background: linear-gradient(180deg, #ff6d00, #ffab40);
+        box-shadow: 0 0 8px #ff6d00, 0 0 22px rgba(255,109,0,0.7), 0 0 50px rgba(255,109,0,0.3);
+        animation: hplBR 3.5s cubic-bezier(0.4,0,0.6,1) 3.5s forwards;
+      }
+      @keyframes hplBR { to { height: 100vh; } }
+
+      /* BOTTOM edge: right → left  ——  Electric Blue */
+      #hpl-bb {
+        bottom: 0; right: 0;
+        height: 5px; width: 0;
+        background: linear-gradient(270deg, #2979ff, #00b0ff);
+        box-shadow: 0 0 8px #2979ff, 0 0 22px rgba(41,121,255,0.7), 0 0 50px rgba(41,121,255,0.3);
+        animation: hplBB 3.5s cubic-bezier(0.4,0,0.6,1) 7s forwards;
+      }
+      @keyframes hplBB { to { width: 100vw; } }
+
+      /* LEFT edge: bottom → top  ——  Pure White */
+      #hpl-bl {
+        bottom: 0; left: 0;
+        width: 5px; height: 0;
+        background: linear-gradient(0deg, #ffffff, #e0e0e0);
+        box-shadow: 0 0 8px #ffffff, 0 0 22px rgba(255,255,255,0.7), 0 0 50px rgba(255,255,255,0.3);
+        animation: hplBL 3.5s cubic-bezier(0.4,0,0.6,1) 10.5s forwards;
+      }
+      @keyframes hplBL { to { height: 100vh; } }
+
+      /* ── LOADING COUNTER ── */
+      #hpl-label {
+        position: fixed; bottom: 5%; left: 50%; transform: translateX(-50%);
+        font-family: 'JetBrains Mono', monospace;
+        text-transform: uppercase; white-space: nowrap;
+        display: flex; flex-direction: column; align-items: center; gap: 4px;
+        z-index: 20;
+        /* stays visible the whole time — hidden only when #hpl fades */
+      }
+      #hpl-label .hpl-cnt-label {
+        font-size: 0.72rem; letter-spacing: 0.38em;
+        color: rgba(0, 230, 118, 0.55);
+      }
+      #hpl-label .hpl-cnt-row {
+        display: flex; align-items: baseline; gap: 2px;
+      }
+      #hpl-label .hpl-cnt-num {
+        font-size: 3.2rem; font-weight: 700; line-height: 1;
+        color: #00e676; letter-spacing: 0.04em;
+        text-shadow: 0 0 16px rgba(0,230,118,0.7), 0 0 50px rgba(0,230,118,0.25);
+        font-variant-numeric: tabular-nums;
+      }
+      #hpl-label .hpl-cnt-sym {
+        font-size: 1.5rem; font-weight: 500;
+        color: rgba(0,230,118,0.65);
+        text-shadow: 0 0 10px rgba(0,230,118,0.35);
+      }
+      #hpl-label .hpl-cnt-sub {
+        font-size: 0.7rem; letter-spacing: 0.25em;
+        color: rgba(180,210,200,0.45); text-transform: uppercase;
+      }
+      /* ══ WELCOME SPLASH — letters fly in EXACTLY like icons, then sunlight sweep ══ */
+      #hpl-welcome {
+        position: fixed;
+        inset: 0;                      /* fill full viewport — NO transform! */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        pointer-events: none;
+        z-index: 25;
+        /* NOTE: NO transform here! transform would make this a containing block
+           for position:fixed children, breaking our JS position calculations. */
+      }
+
+      /* tag line — appears after everything settles */
+      .hpl-wel-tag {
+        font-family: 'DM Sans', sans-serif;
+        font-size: 0.95rem; letter-spacing: 0.38em; text-transform: uppercase;
+        color: rgba(255, 220, 100, 0.85); margin-bottom: 3.5rem; /* Increased distance from name */
+        opacity: 0;
+        animation: hplSlideUp 0.6s ease 9.8s forwards;
+      }
+
+      /* name row flex container */
+      .hpl-wel-name {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0px;
+        white-space: nowrap;
+        overflow: visible;
+        height: 6rem; /* Critical: Prevents top/bottom text from collapsing on top of each other when name characters detach into position:fixed */
+      }
+
+      /* ── individual character base ── */
+      .hwc {
+        display: inline-block;
+        font-family: 'Syne', 'Arial Black', sans-serif;
+        font-size: clamp(3rem, 6vw, 4.5rem);  /* Perfectly balanced cinematic size */
+        font-weight: 800;
+        letter-spacing: 0px;
+        text-transform: uppercase;
+        /* starts invisible — fly-in animation brings it to life */
+        color: rgba(255,255,255,0);
+        will-change: transform, opacity, filter, color, text-shadow;
+      }
+      .hwc-space { width: 0.52em; display:inline-block; }
+
+      /* bar + role — appear after last letter's sunlight */
+      .hpl-wel-bar {
+        width: 0; height: 2px; margin: 1.6rem auto 1.6rem auto;
+        background: linear-gradient(90deg, transparent, rgba(0,230,118,0.85), rgba(0,230,118,0.4), transparent);
+        animation: hplBarGrow 0.8s ease 12.5s forwards;
+      }
+      @keyframes hplBarGrow { to { width: 380px; } }
+      .hpl-wel-role {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 1.15rem; font-weight: 700; letter-spacing: 0.28em; text-transform: uppercase;
+        color: rgba(0, 230, 118, 0.9);
+        text-shadow: 0 0 18px rgba(0,230,118,0.45);
+        opacity: 0;
+        animation: hplSlideUp 0.7s ease 12.7s forwards;
+      }
+      .hpl-wel-tag {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 1.02rem; font-weight: 700; letter-spacing: 0.28em; text-transform: uppercase;
+        color: rgba(0, 230, 118, 0.9); margin-bottom: 1.8rem;
+        opacity: 0;
+        text-shadow: 0 0 18px rgba(0,230,118,0.5);
+        animation: hplSlideUp 0.6s ease 12.3s forwards;
+      }
+      @keyframes hplSlideUp {
+        from { opacity:0; transform:translateY(14px); }
+        to   { opacity:1; transform:translateY(0); }
+      }
+      @keyframes hplLab { from{opacity:.3} to{opacity:.8} }
+    </style>
+  </head>
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+
+    <!-- INSTANT PRELOADER -->
+    <div id="hpl">
+      <div id="hpl-glow"></div>
+
+      <!-- Ring: zero-size div at center. Children orbit around it. -->
+      <!-- Each icon: left/top = orbit position relative to center -->
+      <div id="hpl-ring">
+
+        <!-- i0: top (0, -180) → flies in from TOP -->
+        <div class="hpl-icon hpl-i0" style="left:0px; top:-180px">
+          <div class="hpl-bubble">
+            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" alt="Python"/>
+          </div>
+        </div>
+
+        <!-- i1: top-right (127, -127) → flies in from TOP-RIGHT -->
+        <div class="hpl-icon hpl-i1" style="left:127px; top:-127px">
+          <div class="hpl-bubble">
+            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" alt="React"/>
+          </div>
+        </div>
+
+        <!-- i2: right (180, 0) → flies in from RIGHT -->
+        <div class="hpl-icon hpl-i2" style="left:180px; top:0px">
+          <div class="hpl-bubble">
+            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/django/django-plain.svg" alt="Django"/>
+          </div>
+        </div>
+
+        <!-- i3: bottom-right (127, 127) → flies in from BOTTOM-RIGHT -->
+        <div class="hpl-icon hpl-i3" style="left:127px; top:127px">
+          <div class="hpl-bubble">
+            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg" alt="Java"/>
+          </div>
+        </div>
+
+        <!-- i4: bottom (0, 180) → flies in from BOTTOM -->
+        <div class="hpl-icon hpl-i4" style="left:0px; top:180px">
+          <div class="hpl-bubble">
+            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg" alt="Docker"/>
+          </div>
+        </div>
+
+        <!-- i5: bottom-left (-127, 127) → flies in from BOTTOM-LEFT -->
+        <div class="hpl-icon hpl-i5" style="left:-127px; top:127px">
+          <div class="hpl-bubble">
+            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" alt="JS"/>
+          </div>
+        </div>
+
+        <!-- i6: left (-180, 0) → flies in from LEFT -->
+        <div class="hpl-icon hpl-i6" style="left:-180px; top:0px">
+          <div class="hpl-bubble">
+            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" alt="MySQL"/>
+          </div>
+        </div>
+
+        <!-- i7: top-left (-127, -127) → flies in from TOP-LEFT -->
+        <div class="hpl-icon hpl-i7" style="left:-127px; top:-127px">
+          <div class="hpl-bubble">
+            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" alt="Git"/>
+          </div>
+        </div>
+
+      </div><!-- /#hpl-ring -->
+
+      <!-- Welcome splash: cinematic char-by-char fly-in + light sweep -->
+      <div id="hpl-welcome">
+        <div class="hpl-wel-tag">✦ &nbsp; Full Stack Developer &amp; AI Engineer &nbsp; ✦</div>
+        <h1 class="hpl-wel-name">
+          <span class="hwc hwc-0">G</span>
+          <span class="hwc hwc-1">O</span>
+          <span class="hwc hwc-2">P</span>
+          <span class="hwc hwc-3">A</span>
+          <span class="hwc hwc-4">L</span>
+          <span class="hwc-space"></span>
+          <span class="hwc hwc-5">M</span>
+          <span class="hwc hwc-6">U</span>
+          <span class="hwc hwc-7">R</span>
+          <span class="hwc hwc-8">I</span>
+        </h1>
+        <div class="hpl-wel-bar"></div>
+        <p class="hpl-wel-role">Building the Future, One Line at a Time</p>
+      </div>
+
+      <!-- Center GM badge -->
+      <div id="hpl-gm"><img src="/nav_bar.png" alt="GM Logo" /></div>
+
+      <!-- Loading counter -->
+      <div id="hpl-label">
+        <span class="hpl-cnt-label">Loading</span>
+        <div class="hpl-cnt-row">
+          <span class="hpl-cnt-num" id="hpl-num">0</span>
+          <span class="hpl-cnt-sym">%</span>
+        </div>
+      </div>
+      <!-- Glowing border trace -->
+      <div id="hpl-bt" class="hpl-border"></div>
+      <div id="hpl-br" class="hpl-border"></div>
+      <div id="hpl-bb" class="hpl-border"></div>
+      <div id="hpl-bl" class="hpl-border"></div>
+    </div><!-- /#hpl -->
+
+    <div id="root"></div>
+
+    <script>
+      window.__hplStart = Date.now();
+      var MIN_MS = 14000;
+
+      /* ── Animated progress counter — runs for the full ~14s preloader duration ── */
+      (function() {
+        var pct = 0;
+        var numEl = document.getElementById('hpl-num');
+        /* Speed tiers to reach ~100 across 14 seconds (60ms tick = ~233 intervals)
+           Phase 1 (0→60%):  ~6s  → 100 intervals → +0.60/tick
+           Phase 2 (60→90%): ~5s  →  83 intervals → +0.36/tick
+           Phase 3 (90→100%): ~3s  →  50 intervals → +0.20/tick */
+        var id = setInterval(function() {
+          if (pct >= 100) { clearInterval(id); return; }
+          var inc = pct < 60
+            ? 0.52 + Math.random() * 0.18
+            : pct < 90
+              ? 0.30 + Math.random() * 0.12
+              : 0.14 + Math.random() * 0.08;
+          pct = Math.min(pct + inc, 100);
+          var v = Math.floor(pct);
+          if (numEl) numEl.textContent = v;
+        }, 60);
+      })();
+
+      /* ── JS-driven letter fly-in ─────────────────────────────────────
+         Same technique as the icons:
+         1. Measure each character's FINAL position in the DOM
+         2. Move them to fixed off-screen positions (invisible)
+         3. After icons fade (7.5s), transition each one back to its
+            measured final position — one by one (stagger 220ms)
+         4. Apply sunlight glow the moment each letter lands
+      ─────────────────────────────────────────────────────────────── */
+      var OFFSCREEN = [
+        [-window.innerWidth * 1.6,  0                         ],  // G  ← LEFT
+        [ 0,                        -window.innerHeight * 1.5 ],  // O  ↑ TOP
+        [ window.innerWidth * 1.5,  -window.innerHeight * 1.3 ],  // P  ↗ TOP-RIGHT
+        [ window.innerWidth * 1.6,   window.innerHeight * 0.2 ],  // A  → RIGHT
+        [ window.innerWidth * 1.3,   window.innerHeight * 1.5 ],  // L  ↘ BOTTOM-RIGHT
+        [ 0,                         window.innerHeight * 1.6 ],  // M  ↓ BOTTOM
+        [-window.innerWidth * 1.4,   window.innerHeight * 1.4 ],  // U  ↙ BOTTOM-LEFT
+        [-window.innerWidth * 1.5,  -window.innerHeight * 1.3 ],  // R  ↖ TOP-LEFT
+        [ window.innerWidth * 0.3,  -window.innerHeight * 1.5 ],  // I  ↑ TOP (slight right)
+      ];
+
+      var ROTATIONS = [-35, 25, 55, -20, 70, -45, -60, -75, 30];
+      var FLY_START = 7500;   // ms — after icons fade
+      var STAGGER   = 220;    // ms between each letter
+      var FLY_DUR   = '1.2s';
+      var EASE      = 'cubic-bezier(0.2, 0.8, 0.3, 1)';
+
+      window.addEventListener('load', function() {
+        var chars = document.querySelectorAll('.hwc');
+        if (!chars.length) return;
+
+        /* Step 1: Get EXACT viewport center from #hpl-ring.
+           #hpl-ring has position:fixed; top:50%; left:50%; width:0; height:0
+           So ringRect.left = exactly viewportWidth/2 and ringRect.top = exactly viewportHeight/2
+           This works perfectly regardless of DPI scaling or screen size. */
+        var ringEl = document.getElementById('hpl-ring');
+        var ringRect = ringEl ? ringEl.getBoundingClientRect() : { left: window.innerWidth/2, top: window.innerHeight/2 };
+        var circleCenterX = ringRect.left;  /* = viewport center X exactly */
+        var circleCenterY = ringRect.top;   /* = viewport center Y exactly */
+
+        /* Measure each character's natural width/height */
+        /* MUST temporarily remove transform so we measure true unscaled font width */
+        Array.prototype.forEach.call(chars, function(el) { el.style.transform = 'none'; });
+
+        var charWidths = Array.prototype.map.call(chars, function(el) {
+          var r = el.getBoundingClientRect();
+          return { w: r.width || 60, h: r.height || 80 };
+        });
+
+        /* Restore inline style so CSS fly-in classes apply again */
+        Array.prototype.forEach.call(chars, function(el) { el.style.transform = ''; });
+
+        /* Compute inter-character gap */
+        var charH    = charWidths[0] ? charWidths[0].h : 80;
+        var fontSize = charH / 1.2;           /* undo line-height to get font-size approx */
+        var gap      = 0;                     /* NO gap between letters */
+        var spaceW   = fontSize * 0.52;       /* Proper word gap between GOPAL and MURI */
+
+        /* Total width of "GOPAL MURI" */
+        var totalW = 0;
+        charWidths.forEach(function(c) { totalW += c.w + gap; });
+        totalW += spaceW;   /* inter-word gap */
+        totalW -= gap;      /* no trailing gap after I */
+
+        /* Starting X: first character left edge so text is centered on circleCenterX */
+        var startX = circleCenterX - totalW / 2;
+
+        /* Final positions: each char centered vertically at circleCenterY */
+        var curX = startX;
+        var finalPositions = Array.prototype.map.call(chars, function(el, i) {
+          var cw = charWidths[i];
+          if (i === 5) curX += spaceW;  /* extra gap before M */
+          var fp = { left: curX, top: circleCenterY - cw.h / 2, width: cw.w, height: cw.h };
+          curX += cw.w + gap;
+          return fp;
+        });
+
+        /* Step 2: detach each char from flex flow → fix to measured coords */
+        Array.prototype.forEach.call(chars, function(el, i) {
+          var fp = finalPositions[i];
+          var off = OFFSCREEN[i] || [0, -window.innerHeight];
+          var rot = ROTATIONS[i] || 0;
+
+          el.style.cssText = [
+            'position:fixed',
+            'left:'    + (fp.left + off[0]) + 'px',
+            'top:'     + (fp.top  + off[1]) + 'px',
+            'width:'   + fp.width  + 'px',
+            'height:'  + fp.height + 'px',
+            'margin:0',
+            'padding:0',
+            'opacity:0',
+            'color:rgba(255,255,255,0)',
+            'filter:blur(18px)',
+            'transform:rotate(' + rot + 'deg) scale(2.4)',
+            'transition:none',
+            'will-change:left,top,opacity,filter,transform,color',
+            'display:flex',
+            'align-items:center',
+            'justify-content:center',
+          ].join(';');
+        });
+
+        /* Step 3: after icons fade → fly each letter to final position */
+        Array.prototype.forEach.call(chars, function(el, i) {
+          var fp = finalPositions[i];
+          var delay = FLY_START + i * STAGGER;
+
+          setTimeout(function() {
+            /* One frame pause so the browser registers the off-screen start */
+            requestAnimationFrame(function() {
+              el.style.transition = [
+                'left '      + FLY_DUR + ' ' + EASE,
+                'top '       + FLY_DUR + ' ' + EASE,
+                'transform ' + FLY_DUR + ' ' + EASE,
+                'opacity 0.9s ease',
+                'filter 0.9s ease',
+                'color 0.5s ease',
+              ].join(',');
+
+              el.style.left      = fp.left + 'px';
+              el.style.top       = fp.top  + 'px';
+              el.style.opacity   = '1';
+              el.style.filter    = 'blur(0px)';
+              el.style.transform = 'rotate(0deg) scale(1)';
+              el.style.color     = 'rgba(255,255,255,0.92)';
+
+              /* Step 4: sunlight hits the moment the letter lands */
+              setTimeout(function() {
+                el.style.transition = 'color 0.35s ease, text-shadow 0.35s ease, transform 0.35s ease';
+                el.style.color = '#ffffff';
+                el.style.textShadow = '0 0 8px #fff, 0 0 22px #fff, 0 0 55px #FFE066, 0 0 100px rgba(255,190,0,0.8), 0 0 150px rgba(255,140,0,0.35)';
+                el.style.transform  = 'scale(1.12) translateY(-5px)';
+
+                /* Settle to warm glow */
+                setTimeout(function() {
+                  el.style.transition = 'color 0.5s ease, text-shadow 0.5s ease, transform 0.4s ease';
+                  el.style.color      = '#fff5d6';
+                  el.style.textShadow = '0 0 10px #fff, 0 0 28px rgba(255,210,80,0.8), 0 0 60px rgba(255,165,0,0.35)';
+                  el.style.transform  = 'scale(1) translateY(0)';
+                }, 400);
+              }, 1250); /* 1.2s fly-in + buffer */
+            });
+          }, delay);
+        });
+      });
+
+      window.__hideHtmlPreloader = function() {
+        var elapsed = Date.now() - window.__hplStart;
+        var wait    = Math.max(0, MIN_MS - elapsed);
+        setTimeout(function() {
+          var el = document.getElementById('hpl');
+          if (el) {
+            el.classList.add('hide');
+            document.body.style.overflow = 'auto';
+            document.documentElement.style.overflow = 'auto';
+            setTimeout(function(){ if (el.parentNode) el.parentNode.removeChild(el); }, 800);
+          }
+        }, wait);
+      };
+    </script>
+  </body>
+</html>
