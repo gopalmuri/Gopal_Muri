@@ -1,0 +1,261 @@
+/* src/components/Skills/Skills.css */
+
+.skills { padding: 6rem 0; background: var(--section-alt-bg); }
+
+
+.skills__layout {
+  display: grid;
+  grid-template-columns: 52% 48%;
+  gap: 3rem;
+  align-items: center;
+  margin-top: 3rem;
+}
+
+/* Tabs */
+.skills__tabs {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 2rem;
+  background: var(--bg-card);
+  border-radius: 50px;
+  padding: 0.4rem;
+  border: 1px solid rgba(0, 191, 255, 0.1);
+}
+
+.skills__tab {
+  flex: 1;
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 50px;
+  background: transparent;
+  color: var(--text-secondary);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: none;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
+.skills__tab--active {
+  background: var(--accent);
+  color: #0a0a0a;
+  font-weight: 700;
+  box-shadow: 0 0 15px var(--accent-glow);
+}
+
+/* Pill cards */
+.skills__pills {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.skills__pill {
+  background: var(--bg-card);
+  border: 1px solid rgba(0, 191, 255, 0.1);
+  border-radius: 12px;
+  padding: 1rem 1.25rem;
+  transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+}
+
+.skills__pill:hover {
+  border-color: rgba(0, 191, 255, 0.5);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(0, 191, 255, 0.1);
+}
+
+.skills__pill-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.6rem;
+}
+
+.skills__pill-icon { font-size: 1.2rem; }
+
+.skills__pill-name {
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 600;
+  color: var(--text-primary);
+  flex: 1;
+}
+
+.skills__pill-level {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.8rem;
+  color: var(--accent);
+  font-weight: 600;
+}
+
+/* Progress bar */
+.skills__progress-track {
+  height: 4px;
+  background: rgba(0, 191, 255, 0.1);
+  border-radius: 50px;
+  overflow: hidden;
+}
+
+.skills__progress-bar {
+  height: 100%;
+  border-radius: 50px;
+  background: linear-gradient(90deg, var(--accent), rgba(0, 191, 255, 0.6));
+  width: 0;
+  animation: growBar 1.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  box-shadow: 0 0 8px var(--accent-glow);
+}
+
+@keyframes growBar {
+  to { width: var(--target-width); }
+}
+
+/* ── GLOBE (rAF-driven) ── */
+.skills__globe {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.2rem;
+  width: 100%;
+  justify-content: center;
+}
+
+/* Stage: fixed-size box; icons position inside via JS */
+.skills__globe-stage {
+  position: relative;
+  width: 380px;
+  height: 380px;
+  overflow: visible;
+  margin: 0 auto;
+}
+
+/* Decorative ring — exactly traces the 2D orbit path:
+   stage=380px, center=190px, orbit-r=165px → inset=25px → ring-dia=330px */
+.skills__globe-ring {
+  position: absolute;
+  inset: 25px;
+  border-radius: 50%;
+  border: 2px dashed rgba(167, 139, 250, 0.4); /* Muted violet dashed ring */
+  pointer-events: none;
+  box-shadow: 0 0 30px rgba(167, 139, 250, 0.15) inset,
+              0 0 50px rgba(167, 139, 250, 0.1);
+  animation: ringSpin 25s linear infinite;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+@keyframes ringSpin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* Center container now sits independently over the ring */
+.skills__globe-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2; /* Keep above orbit ring */
+}
+
+/* Realistic 3D Rotating Earth */
+.skills__globe-earth-3d {
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  background-image: url('../../assets/earth-texture.jpg');
+  background-size: auto 100%;
+  background-position: 0 0;
+  box-shadow: 
+    inset -20px -20px 40px rgba(0,0,0,0.85), /* 3D volume dark side shadow */
+    inset 8px 8px 15px rgba(255,255,255,0.4), /* 3D volume light source highlight */
+    0 0 35px rgba(0, 191, 255, 0.4); /* Subtle atmospheric outer glow */
+  animation: spin3DEarth 20s linear infinite;
+  display: block;
+}
+
+@keyframes spin3DEarth {
+  from { background-position: 0 0; }
+  to { background-position: 200% 0; } 
+  /* 200% completely shifts the 2:1 image precisely by one perfect horizontal loop */
+}
+
+/* Each icon tile — JS drives transform + opacity + zIndex */
+.skills__globe-item {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  background: rgba(5, 10, 30, 0.88);
+  border: 1.5px solid rgba(0, 191, 255, 0.4);
+  border-radius: 14px;
+  padding: 11px 13px 8px;
+  backdrop-filter: blur(6px);
+  box-shadow: 0 0 16px rgba(0, 191, 255, 0.18);
+  cursor: default;
+  will-change: transform, opacity;
+  transition: border-color 0.25s, box-shadow 0.25s;
+}
+
+.skills__globe-item:hover {
+  border-color: rgba(0, 191, 255, 0.9);
+  box-shadow: 0 0 22px rgba(0, 191, 255, 0.4);
+}
+
+.skills__globe-icon {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+  display: block;
+  filter: drop-shadow(0 0 6px rgba(0, 191, 255, 0.4));
+  pointer-events: none;
+}
+
+.skills__globe-name {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: rgba(0, 191, 255, 0.9);
+  text-align: center;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.skills__globe-label {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--text-primary); /* Effectively black in light mode */
+  text-transform: uppercase;
+  letter-spacing: 0.35em;
+  margin-top: 2rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .skills__layout { grid-template-columns: 1fr; }
+  .skills__right { order: -1; }
+  .skills__globe-stage { width: 320px; height: 320px; }
+  .skills__globe-icon  { width: 36px; height: 36px; }
+  .skills__globe-earth-3d { width: 140px; height: 140px; }
+}
+
+@media (max-width: 480px) {
+  .skills__tab { padding: 0.5rem 0.8rem; font-size: 0.8rem; }
+  .skills__globe-stage { width: 280px; height: 280px; }
+  .skills__globe-icon  { width: 30px; height: 30px; }
+  .skills__globe-earth-3d { width: 120px; height: 120px; }
+}
+
+
